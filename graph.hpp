@@ -1,20 +1,22 @@
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
 
-#include<queue>
-#include<list>
+#include <list>
+#include <queue>
 
 class Graph
 {
-private: 
-
+  private:
     int V;
-public:
-    Graph(int** board);
-    ~Graph();
+    std::list< std::pair<int, int> > *adjList;
 
-    void shortestPath(int source , int destination);
-}
+  public:
+    Graph(int** board, int width, int height);
+    ~Graph(){};
+    void addEdge(int source, int destination, int weight);
+    void print();
 
+    void shortestPath(int source, int destination);
+};
 
 #endif
