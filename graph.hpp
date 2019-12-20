@@ -6,15 +6,17 @@
 
 class Graph
 {
-private: 
-    std::list<pair<int, int>> *adjList;
+  private:
     int V;
-public:
-    Graph(int** board);
-    ~Graph();
+    std::list<std::pair<int, int>> *adjList;
 
-    void shortestPath(int source , int destination);
-}
+  public:
+    Graph(int **board, int width, int height);
+    ~Graph(){};
+    void addEdge(int source, int destination, int weight);
+    void print();
 
+    void shortestPath(int source, int destination);
+};
 
 #endif

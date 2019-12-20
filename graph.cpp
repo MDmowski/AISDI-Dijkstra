@@ -1,32 +1,52 @@
 #include<vector>
 #include<limits>
+#include <iostream>
 
 #include "graph.hpp"
 
-
-
-void Graph::shortestPath(int source, int destination)
+void Graph::addEdge(int source, int destination, int weight)
 {
-    std::set<pair<int, int>> visited;
-    std::vector<int> dist(V, std::numeric_limits<int>::infinity());
-    std::vector<int> path;
+    adjList[source].push_back(std::make_pair(destination, weight));
+}
 
-    visited.insert(make_pair(0, source));
-    dist[source] = 0;
+Graph::Graph(int **board, int width, int height)
+{
+    V = width * height;
+    adjList = new std::list<std::pair<int, int>>[V];
 
-    while(!visited.empty())
+    for(int y = 1; y <= height; y++)
     {
-        // Currently processed vertex
-        int u = visited.begin()->second;
-        visited.erase(visited.begin());
-
-        list<pair<int, int>>::iterator neighbour;
-        for(neighbour = adjList[u].begin(), neighbour != adjList[u].end(), neighbour++)
+        for(int x = 1; x <= width; x++)
         {
-            int v = neighbour->first;
-            int weight = neighbour->second;
+            int index = (y - 1) * width + (x - 1);
+            int weight = board[y][x - 1]; // LEFT
+            if(weight != -1)
+                addEdge(index, index - 1, weight);
 
+            weight = board[y][x + 1]; // RIGHT
+            if(weight != -1)
+                addEdge(index, index + 1, weight);
+
+            weight = board[y - 1][x]; // UP
+            if(weight != -1)
+                addEdge(index, index - width, weight);
+
+            weight = board[y + 1][x]; // DOWN
+            if(weight != -1)
+                addEdge(index, index + width, weight);
         }
+    }
+}
 
+void Graph::print()
+{
+    for(int i = 0; i < V; i++)
+    {
+        std::cout << "Vertex " << i << " edges:" << std::endl;
+        for(auto const &edge : adjList[i])
+        {
+            std::cout << "\tDestination: " << edge.first
+                      << " Weight: " << edge.second << std::endl;
+        }
     }
 }
