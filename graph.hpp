@@ -2,7 +2,6 @@
 #define GRAPH_HPP
 
 #include<list>
-#include<utility>
 
 class Graph
 {
@@ -16,7 +15,7 @@ class Graph
     void addEdge(int source, int destination, int weight);
     void print();
 
-    void shortestPath(int source, int destination);
+    std::list<int> shortestPath(int source, int destination);
 };
 
 #endif
