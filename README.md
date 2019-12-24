@@ -1,11 +1,11 @@
 # dmowski-szalowski-lab05
 
-# Graph
+## Graph
+
 vertex - pair of ints
+
 graph - list of verticies
 
-# Dijkstra
+## Dijkstra
 
-using STL priority queue
-
-
+using STL Set

@@ -1,7 +1,7 @@
-#include <vector>
-#include <limits>
 #include <iostream>
+#include <limits>
 #include <set>
+#include <vector>
 
 #include "graph.hpp"
 
@@ -15,7 +15,8 @@ void Graph::addEdge(int source, int destination, int weight)
 Graph::Graph(int **board, int width, int height)
 {
     V = width * height;
-    adjList = new std::list<std::pair<int, int>>[V];
+    adjList = new std::list<std::pair<int, int>>[V]; // Creating adjacency list
+                                                     // for each vertex
 
     for(int y = 1; y <= height; y++)
     {
@@ -23,19 +24,19 @@ Graph::Graph(int **board, int width, int height)
         {
             int index = (y - 1) * width + (x - 1);
             int weight = board[y][x - 1]; // LEFT
-            if(weight != -1)
+            if(weight != -1)              // Checking if not on the border
                 addEdge(index, index - 1, weight);
 
             weight = board[y][x + 1]; // RIGHT
-            if(weight != -1)
+            if(weight != -1)          // Checking if not on the border
                 addEdge(index, index + 1, weight);
 
             weight = board[y - 1][x]; // UP
-            if(weight != -1)
+            if(weight != -1)          // Checking if not on the border
                 addEdge(index, index - width, weight);
 
             weight = board[y + 1][x]; // DOWN
-            if(weight != -1)
+            if(weight != -1)          // Checking if not on the border
                 addEdge(index, index + width, weight);
         }
     }
@@ -57,28 +58,31 @@ void Graph::print()
 std::list<int> Graph::shortestPath(int source, int destination)
 {
     // dist[v] is distance from source to v
-    std::vector<int> dist(V, INF); 
-    // p[v] is an index of a vertex proceeding v in shortest path from source to v
+    std::vector<int> dist(V, INF);
+    // p[v] is an index of a vertex proceeding v in shortest path from source to
+    // v
     std::vector<int> p(V);
-    
+
     // initialize p with p[v] = v
     int i = 0;
     for(std::vector<int>::iterator it = p.begin(); it != p.end(); ++it)
         *it = i++;
 
-
-    std::set< std::pair<int, int> > Q; // Set of not processed nodes
-    Q.insert(std::make_pair(0, source)); // First processed node is source with distance 0
+    std::set<std::pair<int, int>> Q; // Set of not processed nodes
+    Q.insert(std::make_pair(
+        0, source));  // First processed node is source with distance 0
     dist[source] = 0; // Distance from source to source is always 0
 
     while(!Q.empty())
     {
         // Currently proccesed vertex u
-        int u = Q.begin()->second; // std::set keeps pairs sorted by first attribute
-        Q.erase(Q.begin()); // remove u from Q
+        int u =
+            Q.begin()->second; // std::set keeps pairs sorted by first attribute
+        Q.erase(Q.begin());    // remove u from Q
 
         // For each vertex v in neighbours of u
-        for(std::list< std::pair<int, int> >::iterator it = adjList[u].begin(); it != adjList[u].end(); ++it)
+        for(std::list<std::pair<int, int>>::iterator it = adjList[u].begin();
+            it != adjList[u].end(); ++it)
         {
             // Current vertex v and the weight of edge (u, v)
             int v = it->first;
@@ -110,16 +114,10 @@ std::list<int> Graph::shortestPath(int source, int destination)
         {
             v = p[v];
             path.push_front(v);
-        }
-        while(v != source);
+        } while(v != source);
     }
     else
         path.push_front(source); // Path only consists of source
 
     return path;
 }
-
-
-
-
-
