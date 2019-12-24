@@ -12,7 +12,7 @@ class Graph
   public:
     Graph(int **board, int width,
           int height); // Initialize grapth with board pointer
-    ~Graph(){};
+    ~Graph();
     void addEdge(int source, int destination,
                  int weight); // Add edge (destination, weight)
     void print();             // Display graph

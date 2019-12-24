@@ -12,6 +12,11 @@ void Graph::addEdge(int source, int destination, int weight)
     adjList[source].push_back(std::make_pair(destination, weight));
 }
 
+Graph::~Graph()
+{
+    delete[] adjList;
+}
+
 Graph::Graph(int **board, int width, int height)
 {
     V = width * height;

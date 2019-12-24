@@ -90,4 +90,11 @@ int main()
 
     // Display path in the board
     displayPath(board, width, height, path);
+
+    // Delete board
+    for(int i = 0; i < height + 2; i++)
+    {
+        delete[] board[i];
+    }
+    delete[] board;
 }
